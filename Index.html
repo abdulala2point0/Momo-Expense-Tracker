@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Momo Expense Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --lavender: #e6e6fa;
+            --sea-blue: #0077be;
+            --soft-mint: #b6e3d4;
+            --pale-lilac: #d6cadd;
+            --seafoam: #9fd6c8;
+            --deep-teal: #2a6b7f;
+            --white: #ffffff;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--lavender);
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--sea-blue), var(--deep-teal));
+            color: var(--white);
+            padding: 20px 0;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--soft-mint);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            /* Responsive: allow buttons to grow/shrink */
+            min-width: 100px;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .btn-login {
+            background-color: transparent;
+            border: 2px solid var(--white);
+            color: var(--white);
+        }
+
+        .btn-signup {
+            background-color: var(--pale-lilac);
+            color: var(--deep-teal);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            color: var(--deep-teal);
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin-bottom: 30px;
+            color: var(--dark-gray);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .btn-primary {
+            background-color: var(--sea-blue);
+            color: var(--white);
+            padding: 12px 24px;
+        }
+
+        .btn-secondary {
+            background-color: var(--soft-mint);
+            color: var(--deep-teal);
+            padding: 12px 24px;
+        }
+
+        .slideshow-container {
+            max-width: 800px;
+            position: relative;
+            margin: auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .mySlides {
+            display: none;
+        }
+
+        .mySlides img {
+            width: 100%;
+            vertical-align: middle;
+            border-radius: 15px;
+        }
+
+        .slide-content {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: var(--white);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            max-width: 70%;
+        }
+
+        .features {
+            background-color: var(--white);
+            padding: 60px 0;
+            border-radius: 15px;
+            margin: 40px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--deep-teal);
+            margin-bottom: 40px;
+            font-size: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--light-gray);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--sea-blue);
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            color: var(--deep-teal);
+            margin-bottom: 10px;
+        }
+
+        .expense-form {
+            background-color: var(--pale-lilac);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--deep-teal);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .currency-select {
+            background-color: var(--white);
+        }
+
+        .btn-submit {
+            background-color: var(--sea-blue);
+            color: var(--white);
+            padding: 12px 24px;
+            width: 100%;
+            font-size: 1.1rem;
+        }
+
+        .expense-list {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--seafoam);
+            color: var(--deep-teal);
+        }
+
+        tr:hover {
+            background-color: rgba(182, 227, 212, 0.2);
+        }
+
+        .contact {
+            background-color: var(--soft-mint);
+            padding: 60px 0;
+            border-radius: 15px;
+            margin: 40px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .contact-card {
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .contact-card i {
+            font-size: 2rem;
+            color: var(--sea-blue);
+            margin-bottom: 15px;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--sea-blue), var(--deep-teal));
+            color: var(--white);
+            padding: 30px 0;
+            text-align: center;
+            border-radius: 15px 15px 0 0;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            color: var(--white);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--soft-mint);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+
+            .hero-buttons .btn {
+                width: 100%;
+                min-width: unset;
+                font-size: 1.1rem;
+            }
+
+            .auth-buttons {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+
+            .auth-buttons .btn {
+                width: 100%;
+                min-width: unset;
+                font-size: 1.1rem;
+            }
+            
+            .expense-form, .expense-list {
+                padding: 20px;
+            }
+            
+            .feature-card, .contact-card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-coins"></i>
+                    <h1>Momo Expense Tracker</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Dashboard</a></li>
+                        <li><a href="#">Reports</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons">
+                    <button class="btn btn-login">Login</button>
+                    <button class="btn btn-signup">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h2>Take Control of Your Finances</h2>
+            <p>Momo helps you track expenses, set budgets, and achieve your financial goals with ease. Join thousands of satisfied users today!</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary">Get Started</button>
+                <button class="btn btn-secondary">Learn More</button>
+            </div>
+            
+            <div class="slideshow-container">
+                <div class="mySlides fade">
+                    <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" alt="Happy user tracking expenses">
+                    <div class="slide-content">
+                        <h3>Sarah from Ghana saved $500 in her first month!</h3>
+                    </div>
+                </div>
+                
+                <div class="mySlides fade">
+                    <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" alt="User analyzing financial reports">
+                    <div class="slide-content">
+                        <h3>Michael manages his business expenses effortlessly</h3>
+                    </div>
+                </div>
+                
+                <div class="mySlides fade">
+                    <img src="https://images.unsplash.com/photo-1533750349088-cd871a92f312?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" alt="Couple celebrating financial success">
+                    <div class="slide-content">
+                        <h3>Join thousands of happy users achieving their goals</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <h2 class="section-title">Why Choose Momo?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-globe"></i>
+                    <h3>Multi-Currency Support</h3>
+                    <p>Track expenses in over 20 currencies including GH Cedis, USD, EUR, and more.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Mobile Friendly</h3>
+                    <p>Access your expense tracker on any device, anywhere, anytime.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chart-pie"></i>
+                    <h3>Visual Reports</h3>
+                    <p>Understand your spending with beautiful charts and visualizations.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-lock"></i>
+                    <h3>Secure & Private</h3>
+                    <p>Your financial data is encrypted and secure with us.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="expense-form">
+            <h2 class="section-title">Add New Expense</h2>
+            <form id="expenseForm">
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" id="description" class="form-control" placeholder="What did you spend on?" required>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input type="number" id="amount" class="form-control" placeholder="Enter amount" min="0" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="currency">Currency</label>
+                    <select id="currency" class="form-control currency-select" required>
+                        <option value="">Select currency</option>
+                        <option value="GHS" selected>Ghana Cedi (GH₵)</option>
+                        <option value="USD">US Dollar ($)</option>
+                        <option value="EUR">Euro (€)</option>
+                        <option value="GBP">British Pound (£)</option>
+                        <option value="JPY">Japanese Yen (¥)</option>
+                        <option value="CAD">Canadian Dollar (C$)</option>
+                        <option value="AUD">Australian Dollar (A$)</option>
+                        <option value="CHF">Swiss Franc (CHF)</option>
+                        <option value="CNY">Chinese Yuan (¥)</option>
+                        <option value="INR">Indian Rupee (₹)</option>
+                        <option value="NGN">Nigerian Naira (₦)</option>
+                        <option value="ZAR">South African Rand (R)</option>
+                        <option value="BRL">Brazilian Real (R$)</option>
+                        <option value="MXN">Mexican Peso ($)</option>
+                        <option value="RUB">Russian Ruble (₽)</option>
+                        <option value="KRW">South Korean Won (₩)</option>
+                        <option value="SGD">Singapore Dollar (S$)</option>
+                        <option value="NZD">New Zealand Dollar (NZ$)</option>
+                        <option value="TRY">Turkish Lira (₺)</option>
+                        <option value="AED">UAE Dirham (د.إ)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" class="form-control" required>
+                        <option value="">Select category</option>
+                        <option value="food">Food & Dining</option>
+                        <option value="transport">Transportation</option>
+                        <option value="shopping">Shopping</option>
+                        <option value="entertainment">Entertainment</option>
+                        <option value="utilities">Utilities</option>
+                        <option value="health">Health</option>
+                        <option value="education">Education</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-submit">Add Expense</button>
+            </form>
+        </section>
+
+        <section class="expense-list">
+            <h2 class="section-title">Recent Expenses</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="expensesTableBody">
+                    <tr>
+                        <td>2023-06-15</td>
+                        <td>Groceries</td>
+                        <td>Food</td>
+                        <td>GH₵ 120.00</td>
+                    </tr>
+                    <tr>
+                        <td>2023-06-14</td>
+                        <td>Uber ride</td>
+                        <td>Transport</td>
+                        <td>GH₵ 25.50</td>
+                    </tr>
+                    <tr>
+                        <td>2023-06-13</td>
+                        <td>Mobile recharge</td>
+                        <td>Utilities</td>
+                        <td>GH₵ 10.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="contact">
+            <h2 class="section-title">Need Help? Contact Us</h2>
+            <div class="contact-info">
+                <div class="contact-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email Support</h3>
+                    <p>support@momoexpense.com</p>
+                    <p>We respond within 24 hours</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-phone"></i>
+                    <h3>Call Us</h3>
+                    <p>+233 123 456 789</p>
+                    <p>Mon-Fri, 9am-5pm GMT</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-comments"></i>
+                    <h3>Live Chat</h3>
+                    <p>Available on the website</p>
+                    <p>Mon-Fri, 9am-5pm GMT</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2023 Momo Expense Tracker. All rights reserved.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Slideshow functionality
+        let slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}
+            slides[slideIndex-1].style.display = "block";
+            setTimeout(showSlides, 4000); // Change image every 4 seconds
+        }
+
+        // Expense form functionality
+        document.getElementById('expenseForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const description = document.getElementById('description').value;
+            const amount = document.getElementById('amount').value;
+            const currency = document.getElementById('currency');
+            const currencyText = currency.options[currency.selectedIndex].text;
+            const category = document.getElementById('category').value;
+            const date = document.getElementById('date').value;
+            
+            // Add to table
+            const tableBody = document.getElementById('expensesTableBody');
+            const newRow = tableBody.insertRow(0);
+            
+            const cell1 = newRow.insertCell(0);
+            const cell2 = newRow.insertCell(1);
+            const cell3 = newRow.insertCell(2);
+            const cell4 = newRow.insertCell(3);
+            
+            cell1.textContent = date;
+            cell2.textContent = description;
+            cell3.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+            cell4.textContent = `${currencyText} ${parseFloat(amount).toFixed(2)}`;
+            
+            // Reset form
+            document.getElementById('expenseForm').reset();
+            
+            // Show success message (in a real app, this would be more elegant)
+            alert('Expense added successfully!');
+        });
+
+        // Set today's date as default for the date field
+        document.getElementById('date').valueAsDate = new Date();
+    </script>
+</body>
+</html>
